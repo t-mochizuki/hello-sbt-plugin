@@ -1,0 +1,1 @@
+# hello-sbt-plugin

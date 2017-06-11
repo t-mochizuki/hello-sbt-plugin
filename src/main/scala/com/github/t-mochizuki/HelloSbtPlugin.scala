@@ -2,9 +2,16 @@ import sbt._
 import Keys._
 
 import java.io.{File, FileWriter}
+import scala.sys.process.Process
 
 object HelloSbtPlugin extends AutoPlugin {
-  override lazy val projectSettings = Seq(commands ++= Seq(hello, world, createFile))
+  val cs = Seq(
+    hello,
+    world,
+    createFile,
+    showListDirectoryContents
+  )
+  override lazy val projectSettings = Seq(commands ++= cs)
   lazy val hello = Command.command("hello") { state =>
     println("hello")
     state
@@ -18,6 +25,10 @@ object HelloSbtPlugin extends AutoPlugin {
     val fileWriter = new FileWriter(file, false)
     fileWriter.write("")
     fileWriter.close()
+    state
+  }
+  lazy val showListDirectoryContents = Command.command("showListDirectoryContents") { state =>
+    Process("ls").run()
     state
   }
 }
